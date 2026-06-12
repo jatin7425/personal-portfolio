@@ -114,30 +114,23 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, [experiences, projects, skills, blogPosts, isLoading]);
 
-  // Contact Form handler
-  const handleContactSubmit = async (e: React.FormEvent) => {
+  // Contact Form handler (Static site friendly using mailto)
+  const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitSuccess(null);
     setSubmitError(null);
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, message }),
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Something went wrong.");
-      }
-
-      setSubmitSuccess("Thank you! Your message has been received.");
+      const subject = encodeURIComponent("Portfolio Message from " + email);
+      const body = encodeURIComponent(message);
+      window.location.href = `mailto:jatinvishwakarma4310@gmail.com?subject=${subject}&body=${body}`;
+      
+      setSubmitSuccess("Opening your email client to send the message...");
       setEmail("");
       setMessage("");
     } catch (err: any) {
-      setSubmitError(err.message || "Failed to send message. Please try again.");
+      setSubmitError("Failed to open email client.");
     } finally {
       setIsSubmitting(false);
     }

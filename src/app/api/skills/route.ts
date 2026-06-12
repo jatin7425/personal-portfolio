@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPortfolioService } from "@/backend/factory";
 
+export const dynamic = "force-static";
+
 export async function GET() {
   try {
     const service = getPortfolioService();
