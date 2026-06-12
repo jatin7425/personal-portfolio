@@ -12,9 +12,15 @@ export async function runWithRedis<T>(
   const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
   const client = createClient({
     url: redisUrl,
-    // Add a connection timeout to fail quickly if Redis is offline
     socket: {
-      connectTimeout: 3000,
+      connectTimeout: 2000,
+      reconnectStrategy(retries) {
+        // Fail fast if Redis is unreachable to avoid hanging the API
+        if (retries >= 1) {
+          return new Error("Redis connection refused or timed out.");
+        }
+        return 200; // Retry once after 200ms
+      },
     },
   });
 
