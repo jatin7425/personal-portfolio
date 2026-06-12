@@ -1,16 +1,13 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { getPortfolioService } from "@/backend/factory";
 
 export async function GET() {
-    try {
-        const mongoose = await connectToDatabase();
-        const db = mongoose.connection.db;
-        const skills = await db.collection("Skills").find({}).toArray();
-        return NextResponse.json({ skills }, { status: 200 });
-    } catch (err) {
-        console.error(err);
-        return NextResponse.json({ error: "Failed to fetch skills" }, { status: 500 });
-    }
+  try {
+    const service = getPortfolioService();
+    const skills = await service.getSkills();
+    return NextResponse.json(skills);
+  } catch (error) {
+    console.error("GET /api/skills error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }
-
-

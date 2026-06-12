@@ -1,29 +1,24 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
-import { contactFormSchema } from "@/lib/portfolioSchema";
-import { withApiHandler } from "@/lib/apiHandler";
+import { getPortfolioService } from "@/backend/factory";
 
-export const POST = withApiHandler(async (request) => {
+export async function POST(request: Request) {
+  try {
     const body = await request.json();
+    const { email, message } = body;
 
-    const parsed = contactFormSchema.safeParse(body);
-    if (!parsed.success) {
-        return NextResponse.json({ error: parsed.error.format() }, { status: 400 });
-    }
-
-    const mongoose = await connectToDatabase();
-    // Access the native Db object from the Mongoose connection
-    const db = mongoose.connection.db;
-    
-    const collection = db.collection("ContactForms");
-
-    const result = await collection.insertOne({
-        ...parsed.data,
-        createdAt: new Date(),
-    });
+    const service = getPortfolioService();
+    const result = await service.submitContactMessage(email, message);
 
     return NextResponse.json({
-        message: "Form submitted successfully!",
-        id: result.insertedId,
+      success: true,
+      message: "Message received successfully!",
+      data: result,
     });
-});
+  } catch (error: any) {
+    console.error("POST /api/contact error:", error);
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to submit message" },
+      { status: 400 }
+    );
+  }
+}

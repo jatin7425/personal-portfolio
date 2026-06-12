@@ -4,10 +4,10 @@ import { getPortfolioService } from "@/backend/factory";
 export async function GET() {
   try {
     const service = getPortfolioService();
-    const experiences = await service.getExperiences();
-    return NextResponse.json(experiences);
+    const blogPosts = await service.getBlogPosts();
+    return NextResponse.json(blogPosts);
   } catch (error) {
-    console.error("GET /api/experience error:", error);
+    console.error("GET /api/blog error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -1,74 +1,119 @@
-@import "tailwindcss";
-@import "remixicon/fonts/remixicon.css";
+:root {
+  --bg: #fbfbfd;
+  --panel: #ffffff;
+  --ink: #16181f;
+  --muted: #5b6172;
+  --line: #e6e8ef;
+  --indigo: #4f46e5;
+  --indigo-soft: #eef0fe;
+  --green: #0e9f6e;
+  --green-soft: #e7f7f0;
+  --amber: #b45309;
+  --amber-soft: #fdf3e3;
+  --code-bg: #0f1222;
+  --code-ink: #d6dcf5;
+  --radius: 14px;
+  --nav-bg: rgba(251, 251, 253, 0.85);
 
-.profession-transition {
-    /* Initial state (when the new element mounts) */
-    animation: profession-enter 0.4s ease-out forwards;
+  /* Fonts loaded via Next.js Layout */
+  --font-bricolage: var(--font-bricolage-sans), sans-serif;
+  --font-albert: var(--font-albert-sans), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-@keyframes profession-enter {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0d13;
+    --panel: #131622;
+    --ink: #f1f3f9;
+    --muted: #8c95a5;
+    --line: #222638;
+    --indigo: #818cf8;
+    --indigo-soft: #1e203c;
+    --green: #34d399;
+    --green-soft: #122c24;
+    --amber: #fbbf24;
+    --amber-soft: #302610;
+    --code-bg: #0b0d13;
+    --code-ink: #cbd5e1;
+    --nav-bg: rgba(11, 13, 22, 0.85);
+  }
 }
 
-/* Tailwind: custom utility layer (if using plain css file) */
-@layer utilities {
-    .animate-fade-in-up {
-        animation: fadeInUp 0.75s cubic-bezier(.16, .84, .44, 1) forwards;
-    }
-
-    .profession-fade {
-        animation: fadeInUp 0.7s ease forwards;
-    }
-
-    .animate-blob-slow {
-        animation: blobSlow 12s ease-in-out infinite;
-    }
-
-    .delay-2000 {
-        animation-delay: 2s;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Keyframes */
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-albert), system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
-@keyframes blobSlow {
-    0% {
-        transform: scale(1) translateY(0) rotate(0deg);
-    }
-
-    33% {
-        transform: scale(1.05) translateY(-8px) rotate(10deg);
-    }
-
-    66% {
-        transform: scale(0.98) translateY(4px) rotate(-6deg);
-    }
-
-    100% {
-        transform: scale(1) translateY(0) rotate(0deg);
-    }
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* small helper to keep animation delays inline-friendly */
-.delay-1000 {
-    animation-delay: 1s;
+a {
+  color: var(--indigo);
+  text-decoration: none;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+a:hover {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+::selection {
+  background: var(--indigo);
+  color: #ffffff;
+}
+
+/* Animations */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Scroll reveal helper */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .badge-dot {
+    animation: none;
+  }
 }

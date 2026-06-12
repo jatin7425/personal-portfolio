@@ -1,0 +1,108 @@
+{
+  "experiences": [
+    {
+      "id": "exp-1",
+      "when": "JUN 2025 — PRESENT",
+      "role": "Associate Software Engineer",
+      "org": "IT Idol Technologies · Valsad, Gujarat",
+      "bullets": [
+        "Promoted from intern to full-time based on <b>exceptional internship performance</b>.",
+        "Architecting backend services in <b>Python and Node.js</b>; building React frontends integrated with RESTful APIs for production apps.",
+        "Engineering <b>web-scraping pipelines</b> and backend automation workflows.",
+        "Leading <b>end-to-end backend delivery for 2 live projects</b>."
+      ]
+    },
+    {
+      "id": "exp-2",
+      "when": "JAN 2025 — JUN 2025",
+      "role": "Python Developer Intern",
+      "org": "IT Idol Technologies · Valsad, Gujarat",
+      "bullets": [
+        "Joined via on-campus placement; contributed to a <b>live production codebase from day one</b>.",
+        "Built and deployed backend services and RESTful APIs with <b>FastAPI</b>.",
+        "Engineered an <b>investment-calculation engine</b> — complex mathematical models for cost-benefit analysis and return projections.",
+        "Consistently delivered <b>ahead of schedule</b>."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "meta": "BACKEND ARCHITECTURE · TEAM LEAD",
+      "title": "Automobile Service Platform",
+      "description": "Architected the foundational backend from an empty repo — Docker orchestration, multi-environment setup, DB schemas and API contracts for 50+ REST endpoints. Directed a 2-person team, designed multi-entity Stripe payment routing, RBAC for 3 user profiles, and Twilio + DKIM notification pipelines.",
+      "metric": "⚡ Geo queries: 150–200ms via custom SQL stored procedures",
+      "chips": ["Node.js (TS)", "Fastify", "Prisma", "Stripe", "Twilio", "Docker"]
+    },
+    {
+      "id": "proj-2",
+      "meta": "MICROSERVICES · FULL STACK",
+      "title": "Employee Management (HRMS)",
+      "description": "Built the company's internal HRMS as a microservices platform from scratch — independently scalable Express services, a shared type-safe database layer, and RBAC spanning 8 roles across 5 microservices. Wrote a bash pipeline consolidating Docker, Prisma migrations and seeding into one command.",
+      "metric": "⚡ Dev setup automation saves ~2–3 hrs per engineer",
+      "chips": ["Node.js", "Express", "Prisma", "PostgreSQL", "Docker", "Bash"]
+    },
+    {
+      "id": "proj-3",
+      "meta": "DATA ENGINEERING · PERFORMANCE",
+      "title": "Weapon Inventory System",
+      "description": "Rescued a critical data migration of 200k+ rows — automated rollback, validation failsafes, and a rebuilt pipeline. Then attacked the post-migration API bottleneck with in-memory caching and parallel processing. Monitored it all through AWS CloudWatch and S3.",
+      "metric": "⚡ Migration: 15 days → 2 days · API: 10 min → <4 s",
+      "chips": ["Python", "FastAPI", "MongoDB", "AWS S3", "CloudWatch"]
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill-backend",
+      "category": "Backend",
+      "skills": ["Python", "FastAPI", "Flask", "Node.js", "Express", "Fastify"]
+    },
+    {
+      "id": "skill-databases",
+      "category": "Databases",
+      "skills": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Prisma ORM"]
+    },
+    {
+      "id": "skill-frontend",
+      "category": "Frontend",
+      "skills": ["React", "TypeScript", "Vite", "Tailwind CSS", "JavaScript (ES6+)"]
+    },
+    {
+      "id": "skill-auth-apis",
+      "category": "Auth & APIs",
+      "skills": ["REST", "JWT", "RBAC", "Stripe", "Twilio"]
+    },
+    {
+      "id": "skill-devops",
+      "category": "DevOps",
+      "skills": ["Docker", "Docker Compose", "Nginx", "Linux", "CI/CD", "Git"]
+    },
+    {
+      "id": "skill-cloud",
+      "category": "Cloud",
+      "skills": ["AWS S3", "CloudWatch", "Azure Functions", "Azure Static Web Apps", "GitHub Actions"]
+    }
+  ],
+  "blogUrl": "https://medium.com/@jatin7425",
+  "blogPosts": [
+    {
+      "slug": "migration-15-days-to-2",
+      "title": "How I cut a 200k-row data migration from 15 days to 2",
+      "date": "2026-06-01",
+      "desc": "Rollbacks, validation failsafes, and why the slowest part of a migration is rarely the data transfer itself.",
+      "tags": ["Python", "FastAPI", "MongoDB", "Performance"],
+      "content": "The migration was projected to take **15 days**. Two hundred thousand rows, moving into a new schema, on a system people depended on daily. Here's how it became 2 days — and how the API on the other side went from 10-minute responses to under 4 seconds.\n\n## The real bottleneck was never the data\n\nThe original pipeline processed rows one at a time, validated each against the live database, and had no recovery path — if row 140,000 failed, you started over. That's not a transfer problem, that's a *trust* problem. Nobody dared run it fast because nobody could afford a failure.\n\nSo the first fix wasn't speed. It was safety:\n\n- **Automated rollback** — every batch wrote an undo log before committing. A failure meant reverting one batch, not restarting 15 days of work.\n- **Validation failsafes** — schema and integrity checks ran on the batch *before* the write, not after the disaster.\n\nOnce failure became cheap, speed became free. Batching + parallel workers did the rest.\n\n## Then the API caught fire\n\nPost-migration, a key endpoint started taking **10 minutes** to respond. Profiling showed the classic culprit: the handler made redundant database queries inside a loop — the new schema had made an old query pattern catastrophically expensive.\n\nThe fix was two moves:\n\n```text\n1. In-memory caching for the hot, rarely-changing lookups\n2. Parallelising the independent queries instead of awaiting them in sequence\n```\n\nResponse time: **10 minutes → under 4 seconds.**\n\n## What I'd tell past me\n\n> Make failure cheap first. Optimisation without a rollback plan is just gambling at higher speed.\n\nAlso: AWS CloudWatch is your friend. Watching the post-migration logs live is how we caught the bottleneck on day one instead of in a user complaint on day ten.",
+      "url": "https://medium.com/@jatin7425/how-i-cut-a-200k-row-data-migration-from-15-days-to-2"
+    },
+    {
+      "slug": "one-command-dev-setup",
+      "title": "The bash pipeline that gives every engineer 2–3 hours back",
+      "date": "2026-05-12",
+      "desc": "Five microservices, Docker, Prisma migrations and seed data — collapsed into a single command.",
+      "tags": ["Bash", "Docker", "Prisma", "DX"],
+      "content": "Our HRMS platform runs as **5 microservices**, each with its own database concerns, migrations, and seed data. Setting up a local environment used to be a rite of passage: clone, configure, start containers in the right order, run Prisma migrations per service, seed, debug whatever broke. Estimated cost: **2–3 hours per engineer, per setup.**\n\n## The principle: setup is a product\n\nI treated developer setup like any other backend feature — with a contract, error handling, and idempotency. The result is one bash pipeline that:\n\n- Brings up all Docker services in dependency order\n- Waits for health checks (not `sleep 10` and a prayer)\n- Runs Prisma migrations across all 5 services\n- Seeds consistent test data\n- Prints a status table of what's running where\n\n```bash\n./dev up        # everything, from zero\n./dev migrate   # just the schema work\n./dev reset     # nuke and rebuild, idempotently\n```\n\n## Small details that mattered\n\n**Health checks over timers.** Waiting on `pg_isready` instead of arbitrary sleeps removed the flakiest failure class entirely.\n\n**Idempotency.** Every step can be re-run safely. Half-finished setups were the biggest time sink — a script you can only run once on a clean machine is a script nobody trusts.\n\n**Loud failures.** When something breaks, the script says *which* service, *which* step, and what to try. Debugging info is part of the interface.\n\n> DX work compounds. One afternoon of scripting, multiplied across every engineer and every fresh setup, pays for itself the first week.",
+      "url": "https://medium.com/@jatin7425/the-bash-pipeline-that-gives-every-engineer-2-3-hours-back"
+    }
+  ],
+  "contactMessages": []
+}

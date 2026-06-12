@@ -1,17 +1,13 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { getPortfolioService } from "@/backend/factory";
 
-export async function GET(_req: Request) {
-    try {
-        const mongoose = await connectToDatabase();
-        const db = mongoose.connection.db;
-        const collection = db.collection("Projects");
-
-        const projects = await collection.find({}).toArray();
-
-        return NextResponse.json({ projects }, { status: 200 });
-    } catch (err) {
-        console.error(err);
-        return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
-    }
+export async function GET() {
+  try {
+    const service = getPortfolioService();
+    const projects = await service.getProjects();
+    return NextResponse.json(projects);
+  } catch (error) {
+    console.error("GET /api/projects error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }
