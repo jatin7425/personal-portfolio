@@ -5,7 +5,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { Experience, Project, SkillGroup, BlogPost } from "@/backend/types";
 
-const EXTERNAL_BLOG_URL = "https://medium.com/@jatin7425";
+const EXTERNAL_BLOG_URL = "https://medium.com/@jatinvishwakarma05";
 
 // Terminal script types
 type LineKind = "p" | "ok" | "raw" | "kv" | "arr";
