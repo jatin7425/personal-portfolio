@@ -2,26 +2,38 @@
   "experiences": [
     {
       "id": "exp-1",
-      "when": "JUN 2025 — PRESENT",
-      "role": "Associate Software Engineer",
+      "when": "JUL 2026 — PRESENT",
+      "role": "Software Engineer",
       "org": "IT Idol Technologies · Valsad, Gujarat",
       "bullets": [
-        "Promoted from intern to full-time based on <b>exceptional internship performance</b>.",
-        "Architecting backend services in <b>Python and Node.js</b>; building React frontends integrated with RESTful APIs for production apps.",
-        "Engineering <b>web-scraping pipelines</b> and backend automation workflows.",
-        "Leading <b>end-to-end backend delivery for 2 live projects</b>."
+        "Promoted to Software Engineer after <b>exceptional performance</b> in the first year as Associate Software Engineer (~52% salary increase).",
+        "Architecting and developing production backend services using <b>Python (FastAPI)</b> and <b>Node.js (Fastify/Express)</b>.",
+        "Directing technical delivery across <b>2+ live products</b> with end-to-end ownership of backend systems.",
+        "Building scalable APIs, payment integrations, and <b>real-time communication layers</b> for live applications."
       ]
     },
     {
       "id": "exp-2",
+      "when": "JUN 2025 — JUL 2026",
+      "role": "Associate Software Engineer",
+      "org": "IT Idol Technologies · Valsad, Gujarat",
+      "bullets": [
+        "Promoted from internship to full-time engineer based on <b>exceptional performance</b> and rapid skill acquisition.",
+        "Led backend architecture and delivery for <b>multiple high-visibility projects</b> serving production traffic.",
+        "Engineered complex business logic including <b>payment flows, RBAC systems, and geospatial optimizations</b>.",
+        "Mentored team members and conducted <b>code reviews</b> ensuring architectural alignment and code quality."
+      ]
+    },
+    {
+      "id": "exp-3",
       "when": "JAN 2025 — JUN 2025",
       "role": "Python Developer Intern",
       "org": "IT Idol Technologies · Valsad, Gujarat",
       "bullets": [
         "Joined via on-campus placement; contributed to a <b>live production codebase from day one</b>.",
-        "Built and deployed backend services and RESTful APIs with <b>FastAPI</b>.",
-        "Engineered an <b>investment-calculation engine</b> — complex mathematical models for cost-benefit analysis and return projections.",
-        "Consistently delivered <b>ahead of schedule</b>."
+        "Built and deployed <b>RESTful APIs</b> and backend services with <b>FastAPI</b>.",
+        "Engineered complex <b>investment-calculation features</b> using advanced mathematical models for cost-benefit analysis.",
+        "Consistently delivered <b>ahead of schedule</b>, exceeding performance expectations and earning rapid promotion."
       ]
     }
   ],
@@ -29,58 +41,89 @@
     {
       "id": "proj-1",
       "meta": "BACKEND ARCHITECTURE · TEAM LEAD",
-      "title": "Automobile Service Platform",
-      "description": "Architected the foundational backend from an empty repo — Docker orchestration, multi-environment setup, DB schemas and API contracts for 50+ REST endpoints. Directed a 2-person team, designed multi-entity Stripe payment routing, RBAC for 3 user profiles, and Twilio + DKIM notification pipelines.",
-      "metric": "⚡ Geo queries: 150–200ms via custom SQL stored procedures",
-      "chips": ["Node.js (TS)", "Fastify", "Prisma", "Stripe", "Twilio", "Docker"]
+      "title": "Auto-mobile-service",
+      "description": "Led a 2-person team building backend infrastructure from scratch for a production service marketplace — Docker orchestration, CI/CD, and 50+ RESTful APIs. Implemented multi-entity Stripe payment routing, RBAC for 3+ user types, real-time chat via Socket.io, and FCM push notifications.",
+      "metric": "⚡ Geo queries: 500ms+ → 150–200ms via custom PostgreSQL procedures",
+      "chips": ["Node.js (TS)", "Fastify", "Prisma", "PostgreSQL", "Redis", "BullMQ", "Stripe"]
     },
     {
       "id": "proj-2",
-      "meta": "MICROSERVICES · FULL STACK",
-      "title": "Employee Management (HRMS)",
-      "description": "Built the company's internal HRMS as a microservices platform from scratch — independently scalable Express services, a shared type-safe database layer, and RBAC spanning 8 roles across 5 microservices. Wrote a bash pipeline consolidating Docker, Prisma migrations and seeding into one command.",
-      "metric": "⚡ Dev setup automation saves ~2–3 hrs per engineer",
-      "chips": ["Node.js", "Express", "Prisma", "PostgreSQL", "Docker", "Bash"]
+      "meta": "SERVERLESS · AZURE AUTOMATION",
+      "title": "Restaurant Price Upload Portal",
+      "description": "Built a serverless Azure automation platform, replacing weeks of manual menu/pricing updates with an Excel-driven pipeline. Synced pricing across downstream systems with automated QA checks and full audit logging, letting non-technical business users run pricing operations independently.",
+      "metric": "⚡ Replaced weeks of manual updates with a self-serve pipeline",
+      "chips": ["Python", "JavaScript", "Azure Functions", "Azure Static Web Apps", "Blob Storage", "SQL"]
     },
     {
       "id": "proj-3",
       "meta": "DATA ENGINEERING · PERFORMANCE",
       "title": "Weapon Inventory System",
-      "description": "Rescued a critical data migration of 200k+ rows — automated rollback, validation failsafes, and a rebuilt pipeline. Then attacked the post-migration API bottleneck with in-memory caching and parallel processing. Monitored it all through AWS CloudWatch and S3.",
+      "description": "Optimized a 200k+ row data migration — automated rollback and validation cut transfer time from 15 days to 2. Then fixed a post-migration API bottleneck with caching and parallel processing, monitored through AWS CloudWatch and S3.",
       "metric": "⚡ Migration: 15 days → 2 days · API: 10 min → <4 s",
       "chips": ["Python", "FastAPI", "MongoDB", "AWS S3", "CloudWatch"]
+    },
+    {
+      "id": "proj-4",
+      "meta": "DATA EXTRACTION · RESILIENCE ENGINEERING",
+      "title": "Multi-Site Web Scraping Pipeline",
+      "description": "Defeated bot detection across multiple target sites using rotating proxy APIs and session/header management. Built a resilient extraction layer with UI-configurable XPaths and fallback selectors, so markup changes degrade gracefully instead of breaking a run.",
+      "metric": "⚡ UI-configurable XPaths keep scrapers running through markup changes",
+      "chips": ["Python", "Selenium", "BeautifulSoup", "XPath", "Proxy APIs"]
+    },
+    {
+      "id": "proj-5",
+      "meta": "FINTECH · ALGORITHMS",
+      "title": "Investment & Returns Calculation Engine",
+      "description": "Designed algorithms for custom investment plan calculations, handling complex mathematical models and variable edge cases. Wrote robust, fast, memory-efficient Python to compute returns across multiple plan types, collaborating with business analysts and clients to translate requirements into algorithmic specs.",
+      "metric": "⚡ Computes returns across multiple investment plan types",
+      "chips": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy"]
     }
   ],
   "skills": [
     {
       "id": "skill-backend",
       "category": "Backend",
-      "skills": ["Python", "FastAPI", "Flask", "Node.js", "Express", "Fastify"]
-    },
-    {
-      "id": "skill-databases",
-      "category": "Databases",
-      "skills": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Prisma ORM"]
+      "skills": ["Python", "FastAPI", "Flask", "Node.js", "Express.js", "Fastify", "TypeScript"]
     },
     {
       "id": "skill-frontend",
       "category": "Frontend",
-      "skills": ["React", "TypeScript", "Vite", "Tailwind CSS", "JavaScript (ES6+)"]
+      "skills": ["React", "Vite", "JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3"]
+    },
+    {
+      "id": "skill-databases",
+      "category": "Databases",
+      "skills": ["PostgreSQL", "MySQL", "MongoDB"]
+    },
+    {
+      "id": "skill-caching",
+      "category": "Caching & Queuing",
+      "skills": ["Redis", "BullMQ"]
     },
     {
       "id": "skill-auth-apis",
-      "category": "Auth & APIs",
-      "skills": ["REST", "JWT", "RBAC", "Stripe", "Twilio"]
+      "category": "APIs & Auth",
+      "skills": ["RESTful APIs", "JWT", "RBAC", "OAuth", "Stripe", "Twilio"]
+    },
+    {
+      "id": "skill-realtime",
+      "category": "Real-Time",
+      "skills": ["Socket.io", "Server-Sent Events"]
     },
     {
       "id": "skill-devops",
-      "category": "DevOps",
-      "skills": ["Docker", "Docker Compose", "Nginx", "Linux", "CI/CD", "Git"]
+      "category": "DevOps & Tools",
+      "skills": ["Git", "Docker", "Docker Compose", "Nginx", "Linux", "CI/CD", "GitHub Workflows"]
     },
     {
       "id": "skill-cloud",
       "category": "Cloud",
-      "skills": ["AWS S3", "CloudWatch", "Azure Functions", "Azure Static Web Apps", "GitHub Actions"]
+      "skills": ["AWS (S3, CloudWatch)", "Azure (Functions, Static Web Apps, Blob Storage, Key Vault)"]
+    },
+    {
+      "id": "skill-architecture",
+      "category": "Architecture",
+      "skills": ["Microservices", "SOLID Principles", "Clean Architecture", "Event-Driven Design"]
     }
   ],
   "blogUrl": "https://medium.com/@jatinvishwakarma05",
