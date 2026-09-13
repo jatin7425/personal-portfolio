@@ -55,7 +55,7 @@ export default function HomePage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const revealElementsRef = useRef<Map<string, HTMLElement>>(new Map());
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const termContainerRef = useRef<HTMLDivElement>(null);
   const drawerScrollRef = useRef<HTMLDivElement>(null);
 
   // Fetch backend-driven data
@@ -134,8 +134,9 @@ export default function HomePage() {
 
   // Auto-scroll terminal to bottom as lines type in
   useEffect(() => {
-    if (terminalEndRef.current) {
-      terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
+    const container = termContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
     }
   }, [terminalLines]);
 
@@ -436,13 +437,12 @@ export default function HomePage() {
               <i></i>
               <span>terminal — zsh</span>
             </div>
-            <div className={styles.termContainer}>
+            <div className={styles.termContainer} ref={termContainerRef}>
               <pre className={styles.termPre}>
                 {terminalLines.map((line, idx) => renderTerminalLine(line, idx))}
                 {terminalIndex < TERMINAL_LINES.length && (
                   <span className={styles.cursor}>▋</span>
                 )}
-                <div ref={terminalEndRef} />
               </pre>
             </div>
           </div>
