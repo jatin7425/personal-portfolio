@@ -37,13 +37,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   // Theme State
-  const [theme, setTheme] = useState<"violet" | "matrix" | "light">("violet");
-
-  // Console View Modes
-  const [expView, setExpView] = useState<"pretty" | "json">("pretty");
-  const [projView, setProjView] = useState<"pretty" | "json">("pretty");
-  const [skillsView, setSkillsView] = useState<"pretty" | "json">("pretty");
-  const [blogView, setBlogView] = useState<"pretty" | "json">("pretty");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   // Blog Inline Reader
   const [activePost, setActivePost] = useState<BlogPost | null>(null);
@@ -52,9 +46,6 @@ export default function HomePage() {
   // Terminal Simulation State
   const [terminalLines, setTerminalLines] = useState<TerminalLine[]>([]);
   const [terminalIndex, setTerminalIndex] = useState(0);
-  const [terminalInput, setTerminalInput] = useState("");
-  const [terminalHistory, setTerminalHistory] = useState<string[]>([]);
-  const [isInteractive, setIsInteractive] = useState(false);
 
   // Form States
   const [email, setEmail] = useState("");
@@ -94,14 +85,14 @@ export default function HomePage() {
   // Theme Switcher Sync with HTML class and Local Storage
   useEffect(() => {
     const savedTheme = localStorage.getItem("portfolio-theme") as any;
-    if (savedTheme && ["violet", "matrix", "light"].includes(savedTheme)) {
+    if (savedTheme && ["dark", "light"].includes(savedTheme)) {
       setTheme(savedTheme);
     }
   }, []);
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove("theme-violet", "theme-matrix", "theme-light");
+    root.classList.remove("theme-dark", "theme-light");
     root.classList.add(`theme-${theme}`);
     localStorage.setItem("portfolio-theme", theme);
   }, [theme]);
@@ -122,7 +113,6 @@ export default function HomePage() {
   // Terminal Typing Animation
   useEffect(() => {
     if (terminalIndex >= TERMINAL_LINES.length) {
-      setIsInteractive(true);
       return;
     }
 
@@ -142,12 +132,12 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, [terminalIndex]);
 
-  // Auto-scroll terminal to bottom on interaction
+  // Auto-scroll terminal to bottom as lines type in
   useEffect(() => {
     if (terminalEndRef.current) {
       terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [terminalHistory, terminalLines, isInteractive]);
+  }, [terminalLines]);
 
   // Scroll reveal setup
   useEffect(() => {
@@ -167,89 +157,7 @@ export default function HomePage() {
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [experiences, projects, skills, blogPosts, isLoading, expView, projView, skillsView, blogView]);
-
-  // Interactive Terminal Submit handler
-  const handleTerminalSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      const val = terminalInput.trim();
-      const cmd = val.toLowerCase();
-      if (!val) return;
-
-      const newLog = [...terminalHistory, `jatin@dev:~$ ${val}`];
-      
-      if (cmd === "clear") {
-        setTerminalHistory([]);
-        setTerminalInput("");
-        return;
-      }
-
-      let response: string[] = [];
-      if (cmd === "help") {
-        response = [
-          "Available commands:",
-          "  about    - Display my introduction",
-          "  skills   - List technical stack",
-          "  projects - List key engineering projects",
-          "  theme    - Switch theme (theme violet, theme matrix, theme light)",
-          "  contact  - Display contact details",
-          "  clear    - Clear the terminal screen"
-        ];
-      } else if (cmd === "about") {
-        response = [
-          "Jatin Vishwakarma - Backend-leaning Full Stack Engineer",
-          "Location: Valsad, Gujarat, India 🇮🇳",
-          "Education: B.Voc Software Development, LIT Sarigam",
-          "Current Role: Software Engineer at IT Idol Technologies",
-          "Focus: I design scalable APIs, payment flows, RBAC systems and automated pipelines."
-        ];
-      } else if (cmd === "skills") {
-        response = [
-          "[Backend]   Python, FastAPI, Flask, Node.js, Express.js, Fastify, TypeScript",
-          "[Database]  PostgreSQL, MySQL, MongoDB",
-          "[Caching]   Redis, BullMQ",
-          "[APIs]      REST, JWT, RBAC, OAuth, Stripe, Twilio",
-          "[Real-Time] Socket.io, Server-Sent Events",
-          "[DevOps]    Docker, Compose, Nginx, Linux, CI/CD, GitHub Workflows",
-          "[Cloud]     AWS (S3, CloudWatch), Azure (Functions, SWA, Blob Storage, Key Vault)"
-        ];
-      } else if (cmd === "projects") {
-        response = [
-          "1. Auto-mobile-service (Node.js, Fastify, Prisma, Stripe)",
-          "   - 50+ REST APIs, Stripe routing, Socket.io chat, FCM push",
-          "2. Restaurant Price Upload Portal (Python, Azure Functions)",
-          "   - Serverless Excel-driven pricing pipeline w/ audit logging",
-          "3. Weapon Inventory System (Python, FastAPI, MongoDB, AWS S3)",
-          "   - 200k+ rows migration, API latency optimized from 10m to <4s",
-          "4. Multi-Site Web Scraping Pipeline (Python, Selenium, XPath)",
-          "   - Rotating proxies + fallback selectors beat bot detection",
-          "5. Investment & Returns Calculation Engine (FastAPI, PostgreSQL)",
-          "   - Custom algorithms for multi-plan investment return calcs"
-        ];
-      } else if (cmd.startsWith("theme ")) {
-        const targetTheme = cmd.split(" ")[1];
-        if (["violet", "matrix", "light"].includes(targetTheme)) {
-          setTheme(targetTheme as any);
-          response = [`Theme successfully switched to '${targetTheme}'!`];
-        } else {
-          response = [`Unknown theme '${targetTheme}'. Try: theme violet | matrix | light`];
-        }
-      } else if (cmd === "theme") {
-        response = ["Usage: theme <violet | matrix | light>"];
-      } else if (cmd === "contact") {
-        response = [
-          "Email:    jatinvishwakarma4310@gmail.com",
-          "GitHub:   github.com/jatin7425",
-          "LinkedIn: linkedin.com/in/jatin7425"
-        ];
-      } else {
-        response = [`jsh: command not found: ${val}. Type 'help' for options.`];
-      }
-
-      setTerminalHistory([...newLog, ...response, ""]);
-      setTerminalInput("");
-    }
-  };
+  }, [experiences, projects, skills, blogPosts, isLoading]);
 
   // Contact Form handler (uses mailto as fallback)
   const handleContactSubmit = (e: React.FormEvent) => {
@@ -285,9 +193,7 @@ export default function HomePage() {
   };
 
   const cycleTheme = () => {
-    if (theme === "violet") setTheme("matrix");
-    else if (theme === "matrix") setTheme("light");
-    else setTheme("violet");
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   // Helper to format blog post publish date
@@ -297,48 +203,6 @@ export default function HomePage() {
       month: "short",
       year: "numeric",
     });
-  };
-
-  // Helper to render formatted JSON tree structure inside console
-  const renderFormattedJson = (data: any) => {
-    const jsonStr = JSON.stringify(data, null, 2);
-    const lines = jsonStr.split("\n");
-    return (
-      <div className={styles.jsonContainer}>
-        {lines.map((line, lineIdx) => {
-          const parts = line.split(/(".*?"\s*:|true|false|null|-?\d+(?:\.\d*)?|[\[\]{}:,])/g);
-          return (
-            <div key={lineIdx} className={styles.jsonLine}>
-              <span className={styles.lineNo}>{lineIdx + 1}</span>
-              <span className={styles.lineContent}>
-                {parts.map((part, partIdx) => {
-                  if (!part) return null;
-                  let className = "";
-                  if (part.endsWith(":")) {
-                    className = styles.jsonKey;
-                  } else if (part.startsWith('"')) {
-                    className = styles.jsonString;
-                  } else if (/^(true|false)$/.test(part)) {
-                    className = styles.jsonBool;
-                  } else if (part === "null") {
-                    className = styles.jsonNull;
-                  } else if (/^\d+/.test(part)) {
-                    className = styles.jsonNum;
-                  } else {
-                    className = styles.jsonPunct;
-                  }
-                  return (
-                    <span key={partIdx} className={className}>
-                      {part}
-                    </span>
-                  );
-                })}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    );
   };
 
   // Helper to parse Markdown strings into styled React components
@@ -511,7 +375,7 @@ export default function HomePage() {
             
             {/* Animated Theme Toggle Button */}
             <button className={styles.themeToggle} onClick={cycleTheme} title="Switch theme">
-              {theme === "violet" ? "🔮 Carbon" : theme === "matrix" ? "🟢 Hacker" : "☀️ Light"}
+              {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
             </button>
 
             <a href="#contact" className={styles.cta}>
@@ -559,7 +423,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Interactive Code Terminal */}
+          {/* Code Terminal (static display, non-interactive) */}
           <div
             className={`${styles.term} reveal`}
             ref={(el) => {
@@ -571,41 +435,10 @@ export default function HomePage() {
               <i></i>
               <i></i>
               <span>terminal — zsh</span>
-              <button 
-                className={styles.termClearBtn} 
-                onClick={() => setTerminalHistory([])}
-                title="Clear screen"
-              >
-                clear
-              </button>
             </div>
             <div className={styles.termContainer}>
               <pre className={styles.termPre}>
                 {terminalLines.map((line, idx) => renderTerminalLine(line, idx))}
-                
-                {/* Process output history */}
-                {terminalHistory.map((line, idx) => (
-                  <div key={`hist-${idx}`} className={line.startsWith("jatin@dev:") ? styles.termInputLine : ""}>
-                    {line}
-                  </div>
-                ))}
-
-                {/* Interactive cursor line */}
-                {isInteractive && (
-                  <div className={styles.termPromptContainer}>
-                    <span className={styles.promptLabel}>jatin@dev:~$</span>
-                    <input
-                      type="text"
-                      className={styles.termInput}
-                      value={terminalInput}
-                      onChange={(e) => setTerminalInput(e.target.value)}
-                      onKeyDown={handleTerminalSubmit}
-                      placeholder="type 'help'..."
-                      autoFocus
-                    />
-                  </div>
-                )}
-                
                 {terminalIndex < TERMINAL_LINES.length && (
                   <span className={styles.cursor}>▋</span>
                 )}
@@ -632,54 +465,36 @@ export default function HomePage() {
               <span className={styles.path}>/experience</span>
               <span className={styles.status}>200 OK</span>
             </div>
-            <div className={styles.consoleControls}>
-              <button
-                className={`${styles.consoleBtn} ${expView === "pretty" ? styles.active : ""}`}
-                onClick={() => setExpView("pretty")}
-              >
-                Pretty UI
-              </button>
-              <button
-                className={`${styles.consoleBtn} ${expView === "json" ? styles.active : ""}`}
-                onClick={() => setExpView("json")}
-              >
-                Raw JSON
-              </button>
-            </div>
           </div>
 
           <div className={styles.consoleBody}>
-            {expView === "pretty" ? (
-              <div className={styles.xp}>
-                {isLoading ? (
-                  <div className={styles.loadingText}>Loading experience logs...</div>
-                ) : (
-                  experiences.map((exp) => (
-                    <div
-                      key={exp.id}
-                      className={`${styles.xpItem} reveal`}
-                      ref={(el) => {
-                        if (el) revealElementsRef.current.set(exp.id, el);
-                      }}
-                    >
-                      <div className={styles.when}>{exp.when}</div>
-                      <h3>{exp.role}</h3>
-                      <div className={styles.org}>{exp.org}</div>
-                      <ul>
-                        {exp.bullets.map((bullet, idx) => (
-                          <li
-                            key={idx}
-                            dangerouslySetInnerHTML={{ __html: bullet }}
-                          />
-                        ))}
-                      </ul>
-                    </div>
-                  ))
-                )}
-              </div>
-            ) : (
-              renderFormattedJson(experiences)
-            )}
+            <div className={styles.xp}>
+              {isLoading ? (
+                <div className={styles.loadingText}>Loading experience logs...</div>
+              ) : (
+                experiences.map((exp) => (
+                  <div
+                    key={exp.id}
+                    className={`${styles.xpItem} reveal`}
+                    ref={(el) => {
+                      if (el) revealElementsRef.current.set(exp.id, el);
+                    }}
+                  >
+                    <div className={styles.when}>{exp.when}</div>
+                    <h3>{exp.role}</h3>
+                    <div className={styles.org}>{exp.org}</div>
+                    <ul>
+                      {exp.bullets.map((bullet, idx) => (
+                        <li
+                          key={idx}
+                          dangerouslySetInnerHTML={{ __html: bullet }}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -700,54 +515,36 @@ export default function HomePage() {
               <span className={styles.path}>/projects</span>
               <span className={styles.status}>200 OK</span>
             </div>
-            <div className={styles.consoleControls}>
-              <button
-                className={`${styles.consoleBtn} ${projView === "pretty" ? styles.active : ""}`}
-                onClick={() => setProjView("pretty")}
-              >
-                Pretty UI
-              </button>
-              <button
-                className={`${styles.consoleBtn} ${projView === "json" ? styles.active : ""}`}
-                onClick={() => setProjView("json")}
-              >
-                Raw JSON
-              </button>
-            </div>
           </div>
 
           <div className={styles.consoleBody}>
-            {projView === "pretty" ? (
-              <div className={styles.cards}>
-                {isLoading ? (
-                  <div className={styles.loadingText}>Resolving projects...</div>
-                ) : (
-                  projects.map((project) => (
-                    <div
-                      key={project.id}
-                      className={`${styles.card} reveal`}
-                      ref={(el) => {
-                        if (el) revealElementsRef.current.set(project.id, el);
-                      }}
-                    >
-                      <div className={styles.cardMeta}>{project.meta}</div>
-                      <h3>{project.title}</h3>
-                      <p>{project.description}</p>
-                      <div className={styles.metric}>{project.metric}</div>
-                      <div className={styles.chips}>
-                        {project.chips.map((chip, idx) => (
-                          <span key={idx} className={styles.chip}>
-                            {chip}
-                          </span>
-                        ))}
-                      </div>
+            <div className={styles.cards}>
+              {isLoading ? (
+                <div className={styles.loadingText}>Resolving projects...</div>
+              ) : (
+                projects.map((project) => (
+                  <div
+                    key={project.id}
+                    className={`${styles.card} reveal`}
+                    ref={(el) => {
+                      if (el) revealElementsRef.current.set(project.id, el);
+                    }}
+                  >
+                    <div className={styles.cardMeta}>{project.meta}</div>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className={styles.metric}>{project.metric}</div>
+                    <div className={styles.chips}>
+                      {project.chips.map((chip, idx) => (
+                        <span key={idx} className={styles.chip}>
+                          {chip}
+                        </span>
+                      ))}
                     </div>
-                  ))
-                )}
-              </div>
-            ) : (
-              renderFormattedJson(projects)
-            )}
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -768,51 +565,33 @@ export default function HomePage() {
               <span className={styles.path}>/skills</span>
               <span className={styles.status}>200 OK</span>
             </div>
-            <div className={styles.consoleControls}>
-              <button
-                className={`${styles.consoleBtn} ${skillsView === "pretty" ? styles.active : ""}`}
-                onClick={() => setSkillsView("pretty")}
-              >
-                Pretty UI
-              </button>
-              <button
-                className={`${styles.consoleBtn} ${skillsView === "json" ? styles.active : ""}`}
-                onClick={() => setSkillsView("json")}
-              >
-                Raw JSON
-              </button>
-            </div>
           </div>
 
           <div className={styles.consoleBody}>
-            {skillsView === "pretty" ? (
-              <div className={styles.skillTable}>
-                {isLoading ? (
-                  <div className={styles.loadingText}>Streaming system definitions...</div>
-                ) : (
-                  skills.map((skillGroup) => (
-                    <div
-                      key={skillGroup.id}
-                      className={`${styles.skillRow} reveal`}
-                      ref={(el) => {
-                        if (el) revealElementsRef.current.set(skillGroup.id, el);
-                      }}
-                    >
-                      <div className={styles.k}>{skillGroup.category}</div>
-                      <div className={styles.chips}>
-                        {skillGroup.skills.map((s, idx) => (
-                          <span key={idx} className={styles.chip}>
-                            {s}
-                          </span>
-                        ))}
-                      </div>
+            <div className={styles.skillTable}>
+              {isLoading ? (
+                <div className={styles.loadingText}>Streaming system definitions...</div>
+              ) : (
+                skills.map((skillGroup) => (
+                  <div
+                    key={skillGroup.id}
+                    className={`${styles.skillRow} reveal`}
+                    ref={(el) => {
+                      if (el) revealElementsRef.current.set(skillGroup.id, el);
+                    }}
+                  >
+                    <div className={styles.k}>{skillGroup.category}</div>
+                    <div className={styles.chips}>
+                      {skillGroup.skills.map((s, idx) => (
+                        <span key={idx} className={styles.chip}>
+                          {s}
+                        </span>
+                      ))}
                     </div>
-                  ))
-                )}
-              </div>
-            ) : (
-              renderFormattedJson(skills)
-            )}
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -833,56 +612,38 @@ export default function HomePage() {
               <span className={styles.path}>/blog</span>
               <span className={styles.status}>200 OK</span>
             </div>
-            <div className={styles.consoleControls}>
-              <button
-                className={`${styles.consoleBtn} ${blogView === "pretty" ? styles.active : ""}`}
-                onClick={() => setBlogView("pretty")}
-              >
-                Pretty UI
-              </button>
-              <button
-                className={`${styles.consoleBtn} ${blogView === "json" ? styles.active : ""}`}
-                onClick={() => setBlogView("json")}
-              >
-                Raw JSON
-              </button>
-            </div>
           </div>
 
           <div className={styles.consoleBody}>
-            {blogView === "pretty" ? (
-              <div className={styles.posts}>
-                {isLoading ? (
-                  <div className={styles.loadingText}>Parsing blog logs...</div>
-                ) : (
-                  blogPosts.map((post) => {
-                    const targetUrl = post.url || `#blog-post-${post.slug}`;
-                    return (
-                      <a
-                        key={post.slug}
-                        href={targetUrl}
-                        target={post.url ? "_blank" : undefined}
-                        rel={post.url ? "noopener noreferrer" : undefined}
-                        className={`${styles.postCard} reveal`}
-                        onClick={(e) => handlePostClick(e, post)}
-                        ref={(el) => {
-                          if (el) revealElementsRef.current.set(post.slug, el);
-                        }}
-                      >
-                        <span className={styles.date}>{formatBlogDate(post.date)}</span>
-                        <span>
-                          <h3>{post.title}</h3>
-                          <span className={styles.desc}>{post.desc}</span>
-                        </span>
-                        <span className={styles.arrow}>{post.content ? "read inline →" : "read on medium ↗"}</span>
-                      </a>
-                    );
-                  })
-                )}
-              </div>
-            ) : (
-              renderFormattedJson(blogPosts)
-            )}
+            <div className={styles.posts}>
+              {isLoading ? (
+                <div className={styles.loadingText}>Parsing blog logs...</div>
+              ) : (
+                blogPosts.map((post) => {
+                  const targetUrl = post.url || `#blog-post-${post.slug}`;
+                  return (
+                    <a
+                      key={post.slug}
+                      href={targetUrl}
+                      target={post.url ? "_blank" : undefined}
+                      rel={post.url ? "noopener noreferrer" : undefined}
+                      className={`${styles.postCard} reveal`}
+                      onClick={(e) => handlePostClick(e, post)}
+                      ref={(el) => {
+                        if (el) revealElementsRef.current.set(post.slug, el);
+                      }}
+                    >
+                      <span className={styles.date}>{formatBlogDate(post.date)}</span>
+                      <span>
+                        <h3>{post.title}</h3>
+                        <span className={styles.desc}>{post.desc}</span>
+                      </span>
+                      <span className={styles.arrow}>{post.content ? "read inline →" : "read on medium ↗"}</span>
+                    </a>
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
       </section>

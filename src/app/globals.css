@@ -1,5 +1,5 @@
 :root {
-  /* Default Theme (Carbon Violet - Dark System Default) */
+  /* Default Theme (Dark) */
   --bg: #060813;
   --bg-gradient: radial-gradient(circle at 50% 0%, #110f2d 0%, #060813 70%);
   --panel: rgba(14, 16, 28, 0.7);
@@ -27,8 +27,8 @@
   --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-/* Carbon Violet Theme Overrides */
-html.theme-violet {
+/* Dark Theme Overrides (explicit, mirrors :root default) */
+html.theme-dark {
   --bg: #060813;
   --bg-gradient: radial-gradient(circle at 50% 0%, #110f2d 0%, #060813 70%);
   --panel: rgba(14, 16, 28, 0.7);
@@ -48,29 +48,6 @@ html.theme-violet {
   --code-ink: #cbd5e1;
   --nav-bg: rgba(6, 8, 19, 0.85);
   --glow-color: rgba(99, 102, 241, 0.15);
-}
-
-/* Hacker Matrix (Classic dark terminal, cyber green highlights) */
-html.theme-matrix {
-  --bg: #020402;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #0b1807 0%, #020402 85%);
-  --panel: rgba(7, 13, 6, 0.8);
-  --panel-hover: rgba(13, 23, 10, 0.95);
-  --panel-border: rgba(16, 185, 129, 0.2);
-  --panel-border-hover: rgba(16, 185, 129, 0.5);
-  --ink: #39ff14;
-  --muted: #5b8f53;
-  --line: rgba(16, 185, 129, 0.15);
-  --indigo: #10b981;
-  --indigo-soft: rgba(16, 185, 129, 0.15);
-  --green: #10b981;
-  --green-soft: rgba(16, 185, 129, 0.1);
-  --amber: #f59e0b;
-  --amber-soft: rgba(245, 158, 11, 0.1);
-  --code-bg: #040804;
-  --code-ink: #39ff14;
-  --nav-bg: rgba(2, 4, 2, 0.9);
-  --glow-color: rgba(16, 185, 129, 0.2);
 }
 
 /* Snow Pure (Premium light mode, royal blue highlights) */
